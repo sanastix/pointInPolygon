@@ -3,9 +3,9 @@ package org.example;
 import java.util.Scanner;
 
 class Point {
-    int x, y;
+    long x, y;
 
-    public Point(int x, int y) {
+    public Point(long x, long y) {
         this.x = x;
         this.y = y;
     }
@@ -13,17 +13,16 @@ class Point {
 public class Main {
 
     public static void main(String[] args) {
-
         Scanner scanner = new Scanner(System.in);
 
         int N = scanner.nextInt();
-        int px = scanner.nextInt();
-        int py = scanner.nextInt();
+        long px = scanner.nextLong();
+        long py = scanner.nextLong();
 
         Point[] polygon = new Point[N];
         for (int i = 0; i < N; i++) {
-            int x = scanner.nextInt();
-            int y = scanner.nextInt();
+            long x = scanner.nextLong();
+            long y = scanner.nextLong();
             polygon[i] = new Point(x, y);
         }
 
@@ -36,21 +35,26 @@ public class Main {
         }
 
         scanner.close();
-
     }
 
-    public static boolean isPointInPolygon(int px, int py, Point[] polygon) {
+    public static boolean isPointInPolygon(long px, long py, Point[] polygon) {
         int n = polygon.length;
         boolean inside = false;
 
         for (int i = 0, j = n - 1; i < n; j = i++) {
-            if ((polygon[i].y > py) != (polygon[j].y > py) &&
-                    px < (polygon[j].x - polygon[i].x) * (py - polygon[i].y) / (polygon[j].y - polygon[i].y) + polygon[i].x) {
+            long xi = polygon[i].x;
+            long yi = polygon[i].y;
+            long xj = polygon[j].x;
+            long yj = polygon[j].y;
+
+            if ((yi > py) != (yj > py) &&
+                    px < xi + (xj - xi) * (py - yi) / (yj - yi)) {
                 inside = !inside;
             }
         }
 
         return inside;
+
     }
 
 }
